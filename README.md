@@ -16,7 +16,7 @@
     > wsl sudo python3 -m http.server 8000
     ```
 
-3. Aceder à página web ```threeJS.htm```.
+3. Aceder à página web ```index.htm```.
 
     Exemplo:
 
