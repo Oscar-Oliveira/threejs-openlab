@@ -2,7 +2,7 @@
 
 ## Online
 
-* [http://...](http://...)
+* [https://oscar-oliveira.github.io/threejs-openlab/](https://oscar-oliveira.github.io/threejs-openlab/)
 
 ## Local
 
@@ -23,7 +23,3 @@
     ```bash
     > start http://127.0.0.1:8000
     ```
-
-TODO:
-
-* urls index.htm android.md carro.md
