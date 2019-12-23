@@ -51,6 +51,10 @@ table {
   font-size: 12px;
 }
 
+table tr:first-child th {
+  text-align: center;
+}
+
 td,
 th {
   border-bottom: 1px solid grey;
