@@ -1,0 +1,64 @@
+body {
+  margin: 25px;
+  background-color: rgb(255, 255, 255);
+  font-family: arial, sans-serif;
+  font-size: 14px;
+}
+
+h1 {
+  font-size: 30px;
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+h2 {
+  font-size: 25px;
+  font-weight: normal;
+  margin-top: 5px;
+}
+
+h3 {
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+.center {
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+}
+
+.container {
+  display: flex;
+}
+
+.right {
+  text-align: right;
+}
+
+#one {
+  flex: 0 0 50%;
+}
+
+#two {
+  flex: 1;
+}
+
+table {
+  border-collapse: collapse;
+  margin: 10px;
+  font-size: 12px;
+}
+
+td,
+th {
+  border-bottom: 1px solid grey;
+  border-right: 1px solid grey;
+  padding: 2px;
+  font-size: 10px;
+}
+
+td {
+  text-align: center;
+}
