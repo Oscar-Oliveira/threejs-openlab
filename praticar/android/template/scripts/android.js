@@ -12,7 +12,7 @@ function init() {
    addCommonHelpersToScene();
    setCommonEventListeners();
 
-   // your script here! 
+   // your script here!
 
    animate();
 }
@@ -59,9 +59,4 @@ function onCommonWindowResize() {
    camera.aspect = window.innerWidth / window.innerHeight;
    camera.updateProjectionMatrix();
    renderer.setSize(window.innerWidth, window.innerHeight);
-}
-
-function commonAnimate() {
-   requestAnimationFrame(commonAnimate);
-   renderer.render(scene, camera);
 }

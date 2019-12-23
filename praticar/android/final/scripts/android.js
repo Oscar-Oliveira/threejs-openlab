@@ -38,7 +38,7 @@ function getAndroid() {
    const leg_r = new THREE.Mesh(new THREE.CylinderBufferGeometry(.2, .2, 1, 30), material);
    const arm_r = new THREE.Mesh(new THREE.CylinderBufferGeometry(.2, .2, 1, 30), material);
    const antena_r = new THREE.Mesh(new THREE.CylinderBufferGeometry(.05, .05, .5, 30), material);
-   
+
    const arm_l = arm_r.clone();
    const leg_l = leg_r.clone();
    const antena_l = antena_r.clone();
@@ -121,9 +121,4 @@ function onCommonWindowResize() {
    camera.aspect = window.innerWidth / window.innerHeight;
    camera.updateProjectionMatrix();
    renderer.setSize(window.innerWidth, window.innerHeight);
-}
-
-function commonAnimate() {
-   requestAnimationFrame(commonAnimate);
-   renderer.render(scene, camera);
 }

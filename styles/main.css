@@ -23,6 +23,10 @@ h3 {
   margin-top: 5px;
 }
 
+code {
+  background-color: rgb(225, 225, 225);
+}
+
 .center {
   margin: auto;
   width: 50%;

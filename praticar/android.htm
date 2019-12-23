@@ -1,158 +1,151 @@
-# O meu android
+<!DOCTYPE html>
+<html>
 
-Este tutorial descreve passo a passo o processo de criação de um android. O projeto final pode ser obtido em [http://](http://).
+<head>
+  <link href="../styles/main.css" rel="stylesheet" type="text/css">
+</head>
 
-1.  Faça o download do template para o projeto em [http://teste.pt](http://teste.pt)
+<body>
+    <div class="center">
+        <h1>Visualizações 3D para a Web com WebGL</h1>
+        <p><a href="../index.htm">Voltar</a></p>
+        <h2>O meu android</h2>
 
-    - O ficheiro `android.htm` é o documento que iremos abrir no nosso navegador web para visualizar o nosso trabalho.
-    - Fazem parte do projeto 3 pastas:
-      - `js` - contem o ficheiro `three.min.js` que fornece as funcionalidades disponibilizadas pela biblioteca three.js e o ficheiro `OrbitControls.js` que permite que a camera ortite em volta de um elemento.
-      - `scripts` - contem o ficheiro `android.js` que irá conter todo o nosso trabalho.
-      - `styles` - contem o [Cascading Style Sheet](https://www.w3schools.com/css/css_intro.asp) (CSS) para a nossa página.
+        <p>Este tutorial descreve passo a passo o processo de criação de um android. O resultado final pode ser visualizado na página principal.</p>
 
-2.  Vamos de seguida editar o ficheiro `scripts/android.js` de modo a criar o nosso android.
+        <ol>
+            <li>Faça o download do <a href="android/template.zip">template</a>
+                <ul>
+                    <li>O ficheiro <code>android.htm</code> é o documento que iremos abrir no nosso navegador web para visualizar o trabalho.</li>
+                    <li>Fazem parte do projeto 3 pastas:
+                        <ul>
+                            <li><code>js</code> - contem o ficheiro <code>three.min.js</code> que fornece as funcionalidades disponibilizadas pela biblioteca three.js e o ficheiro <code>OrbitControls.js</code> que permite que a camera ortite em volta de um elemento.</li>
+                            <li><code>scripts</code> - contem o ficheiro <code>android.js</code> que irá conter todo o nosso trabalho.</li>
+                            <li><code>styles</code> - contem o <a href="https://www.w3schools.com/css/css_intro.asp" target="_blank">Cascading Style Sheet</a> (CSS) para a nossa página.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li>Vamos de seguida editar o ficheiro <code>scripts/android.js</code> de modo a criar o nosso android.
+                <ol>
+                    <li>Adicionar luz à nossa cena.
+                        <ul>
+                            <li>A função seguinte retorna uma luz direcional posicionada em <code>(0, 25, 25)</code>.
+                                Adicione o seguinte código após a função <code>init</code>.
+<p><pre><code>function getLights() {
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+    directionalLight.position.set(0, 25, 25);
+    return directionalLight;
+}</code></pre></p>
+                            </li>
+                            <li>Na função <code>init</code> adicione o seguinte codigo em vez da linha <code>// your script here!</code>.
+<p><pre><code>scene.add(getLights());</code></pre></p>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>O nosso android será criado numa função chamada <code>getAndroid</code>.
+                        <ul>
+                            <li>Crie a seguir à funcão <code>init</code> a função <code>getAndroid</code>.
+<p><pre><code>function getAndroid() {
 
-    1. Adicionar luz à nossa cena.
+}</code></pre></p>
+                            </li>
+                            <li>Na função <code>getAndroid</code> vamos começar por criar o material para o android. Este material é afetado pela luz previamente adicionada à nossa cena.
+<p><pre><code>const material = new THREE.MeshPhongMaterial({
+    color: 0x00ff00,
+    shininess: 100
+});</code></pre></p>
+                            </li>
+                            <li>De seguida criámos os objetos que farão parte do nosso android. A cabeça é uma meia esfera com varredura horizontal de <code>360º</code> e varredura vertical de <code>90º</code>. O corpo, a perna direita, o braço direito e a antena direita são cilindros. A perna esquerda, o braço esquerdo e a antena esquerda são criados como sendo clones dos objetos previamente criados para o lado direito. Adicione o código seguinte após o adicionado no ponto anterior.
+<p><pre><code>const head = new THREE.Mesh(
+    new THREE.SphereBufferGeometry(1, 30, 20, 0, THREE.Math.degToRad(360), 0, THREE.Math.degToRad(90)),
+    material);
+const body = new THREE.Mesh(
+     new THREE.CylinderBufferGeometry(1, 1, 2, 30),
+     material);
+const leg_r = new THREE.Mesh(
+     new THREE.CylinderBufferGeometry(.2, .2, 1, 30),
+     material);
+const arm_r = new THREE.Mesh(
+    new THREE.CylinderBufferGeometry(.2, .2, 1, 30),
+    material);
+const antena_r = new THREE.Mesh(new THREE.CylinderBufferGeometry(.05, .05, .5, 30), material);
+const leg_l = leg_r.clone();
+const arm_l = arm_r.clone();
+const antena_l = antena_r.clone();</code></pre></p>
+                            </li>
+                            <li>Os bracos e as antenas são rodadas <code>45º</code> sobre o eixo <code>z</code>. Adicione o código seguinte após o adicionado no ponto anterior.
+<p><pre><code>arm_r.rotation.z = THREE.Math.degToRad(45);
+arm_l.rotation.z = THREE.Math.degToRad(-45);
+antena_r.rotation.z = THREE.Math.degToRad(-45);
+antena_l.rotation.z = THREE.Math.degToRad(45);
+</code></pre></p>
+                            </li>
+                            <li>Tendo todos os objetos criados temos agora de os posicionar corretamente. Adicione o código seguinte após o adicionado no ponto anterior.
+<p><pre><code>body.position.set(0, 1, 0);
+head.position.set(0, 2.1, 0);
+leg_r.position.set(.5, -.5, 0);
+leg_l.position.set(-.5, -.5, 0);
+arm_r.position.set(1.2, 1.25, 0);
+arm_l.position.set(-1.2, 1.25, 0);
+antena_r.position.set(.85, 3, 0);
+antena_l.position.set(-.85, 3, 0);
+</code></pre></p>
+                            </li>
+                            <li>Vamos criar um grupos e adicionar a este todos os objetos criados anteriormente. Adicione o código seguinte após o adicionado no ponto anterior.
+<p><pre><code>let group = new THREE.Group();
+group.add(head);
+group.add(body);
+group.add(leg_r);
+group.add(leg_l);
+group.add(arm_r);
+group.add(arm_l);
+group.add(antena_r);
+group.add(antena_l);
+</code></pre></p>
+                            </li>
+                            <li>A função fica finalizada retornando o grupo. Adicione o código seguinte após o adicionado no ponto anterior.
+<p><pre><code>return group;</code></pre></p>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>Vamos agora adicionar o nosso android à cena.
+                        <ul>
+                            <li>Vamos adicionar uma variável global para receber o nosso android. No topo do ficheiro adicione a variável <code>android</code> de modo a ficar como ilustrado de seguida:
+<p><pre><code>let camera, scene, renderer, android;</code></pre></p>
+                            </li>
+                            <li>Na funcão <code>init</code>, a seguir às luzes, adicione o seguinte código para receber o android criado pela função <code>getAndroid</code>.
+<p><pre><code>android = getAndroid();
+scene.add(android);</code></pre></p>
+                            </li>
+                        </ul>
+                    </li>
+                </ol>
+            </li>
+            <li>O android deve agora aparecer no centro da nossa cena. Abra no seu navegador a página <code>android.htm</code> e verifique.</li>
+            <li>Vamos agora animar um pouco esta cena.
+                <ul>
+                    <li>Vamos adicionar uma variável global para definir a direcção do nosso android. No topo do ficheiro adicione a variável <code>direction</code> de modo a ficar como ilustrado de seguida:
+<p><pre><code>let camera, scene, renderer, android, direction = 1;</code></pre></p>
+                    </li>
+                    <li>Altere a função <code>animate</code> de modo a ficar semelhante ao código seguinte. Esta função irá permitir ao nosso android mover-se no eixo <code>z</code> tendo em conta a direção dada pela variável <code>direction</code>. A direção é alterada sempre que o android chege à posição <code>5</code> ou <code>-5</code> no eixo <code>z</code>.
+<p><pre><code>function animate() {
+    requestAnimationFrame(animate);
+    android.position.z += 0.05 * direction;
+    if (android.position.z > 5) {
+        direction = -1;
+    } else if (android.position.z < -5) {
+        direction = 1;
+    }
+    renderer.render(scene, camera);
+}</code></pre></p>
+                    </li>
+                </ul>
+            </li>
+            <li>O android está agora finalizado. Abra a página <code>android.htm</code> e verifique.</li>
+        </ol>
+    </div>
 
-        - A seguinte função retorna uma luz direcional posicionada em (0, 25, 25). Adicione o seguinte código após a função `init`.
+</body>
 
-            ```javascript
-            function getLights() {
-                const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-                directionalLight.position.set(0, 25, 25);
-                return directionalLight;
-            }
-            ```
-
-        - Na função `init` adicione a seguinte linha após a criação da cena para adicionar a luz à cena.
-
-            ```javascript
-            scene.add(getLights());
-            ```
-
-    1. O nosso android será criado numa função chamada `getAndroid`.
-
-        - Crie a seguir à funcão `init` a função `getAndroid`.
-
-            ```javascript
-            function getAndroid() {
-
-            }
-            ```
-
-        - Na função `getAndroid` vamos começar por criar o material para o android. Este material é afetado pela luz previamente adicionada à nossa cena. 
-
-            ```javascript
-            const material = new THREE.MeshPhongMaterial({
-                color: 0x00ff00,
-                shininess: 100
-            });
-            ```
-
-        - De seguida criámos os objetos que farão parte do nosso android. A cabeça é uma meia esfera com varredura horizontal de 360º e varredura vertical de 90º. O corpo, a perna direita, o braço direito e a antena direita são cilindros. A perna esquerda, o braço esquerdo e a antena esquerda são criados como sendo clones dos objetos previamente criados para o lado direito. Adicione o código seguinte após o adicionado no ponto anterior.
-
-            ```javascript
-            const head = new THREE.Mesh(
-                new THREE.SphereBufferGeometry(1, 30, 20, 0, THREE.Math.degToRad(360), 0, THREE.Math.degToRad(90)),
-                material);
-            const body = new THREE.Mesh(
-                 new THREE.CylinderBufferGeometry(1, 1, 2, 30),
-                 material);
-            const leg_r = new THREE.Mesh(
-                 new THREE.CylinderBufferGeometry(.2, .2, 1, 30),
-                 material);
-            const arm_r = new THREE.Mesh(
-                new THREE.CylinderBufferGeometry(.2, .2, 1, 30),
-                material);
-            const antena_r = new THREE.Mesh(new THREE.CylinderBufferGeometry(.05, .05, .5, 30), material);
-            const leg_l = leg_r.clone();
-            const arm_l = arm_r.clone();
-            const antena_l = antena_r.clone();
-            ```
-
-        - Os bracos e as antenas são rodadas 45º sobre o eixo `z`. Adicione o código seguinte após o adicionado no ponto anterior.
-
-            ```javascript
-            arm_r.rotation.z = THREE.Math.degToRad(45);
-            arm_l.rotation.z = THREE.Math.degToRad(-45);
-            antena_r.rotation.z = THREE.Math.degToRad(-45);
-            antena_l.rotation.z = THREE.Math.degToRad(45);
-            ```
-
-        - Tendo todos os objetos criados temos agora de os posicionar corretamente. Adicione o código seguinte após o adicionado no ponto anterior.
-
-            ```javascript
-            body.position.set(0, 1, 0);
-            head.position.set(0, 2.1, 0);
-            leg_r.position.set(.5, -.5, 0);
-            leg_l.position.set(-.5, -.5, 0);
-            arm_r.position.set(1.2, 1.25, 0);
-            arm_l.position.set(-1.2, 1.25, 0);
-            antena_r.position.set(.85, 3, 0);
-            antena_l.position.set(-.85, 3, 0);
-            ```
-
-        - Vamos criar um grupos e adicionar a este todos os objetos criados anteriormente. Adicione o código seguinte após o adicionado no ponto anterior.
-
-            ```javascript
-            let group = new THREE.Group();
-            group.add(head);
-            group.add(body);
-            group.add(leg_r);
-            group.add(leg_l);
-            group.add(arm_r);
-            group.add(arm_l);
-            group.add(antena_r);
-            group.add(antena_l); 
-            ```
-
-        - A função fica finalizada retornando o grupo. Adicione o código seguinte após o adicionado no ponto anterior.
-
-            ```javascript
-            return group;
-            ```
-
-    1. Vamos agora adicionar o nosso android à cena.
-
-        - Vamos adicionar uma variável global para receber o nosso android. No topo do ficheiro adicione a variável `android` de modo a ficar como ilustrado de seguida:
-
-            ```javascript
-                let camera, scene, renderer, android; 
-            ```
-
-        - Na funcão `init()` a seguir às luzes adicione o seguinte código para receber o android criado pela função `getAndroid`.
-
-            ```javascript
-            android = getAndroid();
-            scene.add(android);
-            ```
-
-    1. O android deve agora aparecer no centro da nossa cena. Abra no seu navegador a página `android.htm` e verifique.
-
-    1. Vamos agora animar um pouco esta cena. 
-
-        - Vamos adicionar uma variável global para definir a direcção do nosso android. No topo do ficheiro adicione a variável `direction` de modo a ficar como ilustrado de seguida:
-
-            ```javascript
-                let camera, scene, renderer, android, direction = 1; 
-            ```
-        
-        - Altere a função `animate` de modo a ficar semelhante ao código seguinte. Esta função irá permitir ao nosso android mover-se no eixo `z` tendo em conta a direção dada pela variável `direction`. A direção é alterada sempre que o android chege à posição `5` ou `-5` no eixo `z`.  
-
-            ```javascript
-            function animate() {
-                requestAnimationFrame(animate);
-
-                android.position.z += 0.05 * direction;
-
-                if (android.position.z > 5) {
-                    direction = -1;
-                } else if (android.position.z < -5) {
-                    direction = 1;
-                }
-
-                renderer.render(scene, camera);
-            }
-            ```
-
-    1. O android está agora finalizado. Abra a página `android.htm` e verifique.
+</html>
