@@ -9,6 +9,7 @@ function init() {
    scene = getCommonScene();
    renderer = getCommonRenderer();
    const controls = getCommonControls();
+
    addCommonHelpersToScene();
    setCommonEventListeners();
 
